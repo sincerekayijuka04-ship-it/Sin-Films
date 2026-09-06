@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="rw">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sin Films</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#080b10;color:#fff;font-family:Arial,sans-serif}header{position:sticky;top:0;z-index:5;background:#090c12eF;backdrop-filter:blur(10px);padding:14px 5%;display:flex;align-items:center;gap:18px}header b{font-size:25px;color:#e50914}nav{display:flex;gap:18px;margin-left:auto}nav a{color:#ddd;text-decoration:none}.search{background:#151a22;border:1px solid #333;border-radius:22px;padding:10px 15px;color:#fff;width:180px}.hero{min-height:430px;padding:70px 7%;display:flex;align-items:center;background:linear-gradient(90deg,#080b10 20%,transparent),linear-gradient(0deg,#080b10,transparent),url('https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1400&q=80') center/cover}.hero h1{font-size:48px;margin:8px 0}.hero p{max-width:540px;color:#c8c8c8;line-height:1.6}.btn{border:0;border-radius:7px;padding:12px 20px;font-weight:bold;cursor:pointer;margin:5px;background:#e50914;color:#fff}.btn.alt{background:#fff;color:#111}.wrap{padding:25px 5%}.row{display:flex;justify-content:space-between;align-items:center}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}.card{background:#11161e;border-radius:10px;overflow:hidden}.card img{width:100%;height:230px;object-fit:cover}.card div{padding:10px}.muted{color:#9da4ae;font-size:14px}.panel{background:#11161e;border:1px solid #2b313b;padding:18px;border-radius:12px;margin:15px 0}.filters button{background:#171c24;color:#ddd;border:1px solid #333;border-radius:18px;padding:8px 14px;margin:4px;cursor:pointer}.filters button.active{background:#e50914;color:#fff}.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:10;padding:20px}.box{background:#11161e;border-radius:14px;max-width:700px;width:100%;padding:22px;max-height:90vh;overflow:auto}.close{float:right;font-size:26px;cursor:pointer}input,textarea,select{width:100%;padding:12px;margin:7px 0;background:#090d13;color:#fff;border:1px solid #343b46;border-radius:7px}video{width:100%;border-radius:10px;background:#000}.bottom{display:none}@media(max-width:650px){nav{display:none}.search{width:130px}.hero{min-height:390px;padding:35px 6%}.hero h1{font-size:35px}.cards{grid-template-columns:repeat(2,1fr)}.card img{height:210px}.bottom{display:flex;position:fixed;bottom:0;left:0;right:0;background:#10151d;justify-content:space-around;padding:12px;z-index:6}.bottom a{color:#ddd;text-decoration:none;font-size:12px;text-align:center}.wrap{padding-bottom:80px}}
+</style>
+</head>
+<body>
+<header><b>🎬 SIN FILMS</b><input class="search" id="search" placeholder="Shakisha..."><nav><a href="#home">Home</a><a href="#movies">Filme</a><a href="#series">Series</a><a href="#admin">Admin</a></nav></header>
+
+<section class="hero" id="home"><div><span class="muted">SIN FILMS</span><h1>Filme n'amaseries mu Kinyarwanda</h1><p>Reba films na TV series ufite uburenganzira bwo gukwirakwiza. Hitamo film, urebe ibisobanuro hanyuma utangire kureba.</p><button class="btn" onclick="openFilm(0)">▶ Watch Film</button><button class="btn alt" onclick="document.getElementById('movies').scrollIntoView()">More Info</button></div></section>
+
+<section class="wrap" id="movies"><div class="row"><h2>Filme Nshya</h2><span class="muted" id="count"></span></div><div class="filters" id="filters"><button class="active" onclick="filter('All',this)">All</button><button onclick="filter('Action',this)">Action</button><button onclick="filter('Drama',this)">Drama</button><button onclick="filter('Romance',this)">Romance</button><button onclick="filter('Thriller',this)">Thriller</button></div><div class="cards" id="cards"></div></section>
+
+<section class="wrap" id="series"><h2>TV Series & Episodes</h2><div class="panel"><b>Series Demo</b><p class="muted">Episode 1 • Episode 2 • Episode 3</p><button class="btn" onclick="alert('Shyiramo episodes zawe muri Admin panel.')">Manage Episodes</button></div></section>
+
+<section class="wrap" id="admin"><h2>Admin • Upload Film</h2><div class="panel"><p class="muted">Iyi ni demo yo kuri browser. Metadata ibikwa muri browser; upload nyayo online isaba server/database na video storage.</p><input id="title" placeholder="Izina rya film"><select id="cat"><option>Action</option><option>Drama</option><option>Romance</option><option>Thriller</option></select><input id="year" placeholder="Umwaka"><input id="translator" placeholder="Umusemuzi"><textarea id="desc" placeholder="Ibisobanuro"></textarea><input id="poster" placeholder="Poster image URL"><button class="btn" onclick="addFilm()">+ Upload Film</button></div></section>
+
+<div class="modal" id="modal"><div class="box"><span class="close" onclick="closeModal()">×</span><div id="modalBody"></div></div></div>
+<div class="bottom"><a href="#home">🏠<br>Home</a><a href="#movies">🎬<br>Filme</a><a href="#series">📺<br>Series</a><a href="#admin">⬆️<br>Upload</a></div>
+
+<script>
+let films=[
+{title:"Sin Films Premiere",cat:"Action",year:"2026",translator:"Sin Films",poster:"https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=80",desc:"Film y'icyitegererezo kuri Sin Films."},
+{title:"Love Story",cat:"Romance",year:"2026",translator:"Sin Films",poster:"https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=600&q=80",desc:"Urukundo n'inkuru ishimishije."},
+{title:"Night Mystery",cat:"Thriller",year:"2026",translator:"Sin Films",poster:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80",desc:"Inkuru y'amayobera."},
+{title:"Family Drama",cat:"Drama",year:"2026",translator:"Sin Films",poster:"https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?auto=format&fit=crop&w=600&q=80",desc:"Drama y'umuryango."}
+];
+let selected="All";
+function render(){
+let q=document.getElementById('search').value.toLowerCase();
+let list=films.filter(f=>(selected==="All"||f.cat===selected)&&f.title.toLowerCase().includes(q));
+document.getElementById('count').textContent=list.length+" films";
+document.getElementById('cards').innerHTML=list.map((f,i)=>`<article class="card"><img src="${f.poster}" alt=""><div><b>${f.title}</b><p class="muted">${f.cat} • ${f.year}<br>Byasobanuwe: ${f.translator}</p><button class="btn" onclick="openFilm(${films.indexOf(f)})">Reba</button><button class="btn alt" onclick="myList('${f.title}')">+ My List</button></div></article>`).join('');
+}
+function filter(c,b){selected=c;document.querySelectorAll('#filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()}
+function openFilm(i){let f=films[i];document.getElementById('modal').style.display='flex';document.getElementById('modalBody').innerHTML=`<h2>${f.title}</h2><p class="muted">${f.cat} • ${f.year} • ${f.translator}</p><img src="${f.poster}" style="width:100%;max-height:300px;object-fit:cover;border-radius:10px"><p>${f.desc}</p><button class="btn" onclick="play()">▶ Play</button><button class="btn alt" onclick="downloadInfo('${f.title}')">⬇ Download</button>`}
+function play(){document.getElementById('modalBody').innerHTML+=`<p class="muted">Aha ni player ya demo. Shyiramo video yawe bwite kuri server ifite uburenganzira.</p><video controls><source src="" type="video/mp4"></video>`}
+function downloadInfo(t){alert("Download ya "+t+" isaba video file ibitswe kuri server.");}
+function myList(t){let a=JSON.parse(localStorage.getItem('sinMyList')||'[]');if(!a.includes(t))a.push(t);localStorage.setItem('sinMyList',JSON.stringify(a));alert(t+" yashyizwe muri My List.");}
+function closeModal(){document.getElementById('modal').style.display='none'}
+function addFilm(){let t=document.getElementById('title').value;if(!t)return alert("Andika izina rya film.");films.unshift({title:t,cat:document.getElementById('cat').value,year:document.getElementById('year').value||"2026",translator:document.getElementById('translator').value||"Sin Films",poster:document.getElementById('poster').value||"https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=80",desc:document.getElementById('desc').value||"Nta bisobanuro."});render();alert("Film yongewemo kuri iyi browser.");}
+document.getElementById('search').addEventListener('input',render);render();
+</script>
+</body></html>
